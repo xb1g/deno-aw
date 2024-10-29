@@ -80,7 +80,7 @@ export default function Footer() {
           <IconBrandGithub class="size-6" />
         </a>
         <a href="https://fresh.deno.dev">
-          <MadeWithFreshBadge />
+          {/* <MadeWithFreshBadge /> */}
         </a>
       </nav>
     </footer>
