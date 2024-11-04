@@ -10,12 +10,15 @@ import * as $account_manage from "./routes/account/manage.ts";
 import * as $account_upgrade from "./routes/account/upgrade.ts";
 import * as $api_items_id_ from "./routes/api/items/[id].ts";
 import * as $api_items_index from "./routes/api/items/index.ts";
+import * as $api_me_assets from "./routes/api/me/assets.ts";
 import * as $api_me_votes from "./routes/api/me/votes.ts";
 import * as $api_stripe_webhooks from "./routes/api/stripe-webhooks.ts";
+import * as $api_users_login_assets from "./routes/api/users/[login]/assets.ts";
 import * as $api_users_login_index from "./routes/api/users/[login]/index.ts";
 import * as $api_users_login_items from "./routes/api/users/[login]/items.ts";
 import * as $api_users_index from "./routes/api/users/index.ts";
 import * as $api_vote from "./routes/api/vote.ts";
+import * as $assets from "./routes/assets.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_stats from "./routes/dashboard/stats.tsx";
 import * as $dashboard_users from "./routes/dashboard/users.tsx";
@@ -24,10 +27,13 @@ import * as $pricing from "./routes/pricing.tsx";
 import * as $submit from "./routes/submit.tsx";
 import * as $users_login_ from "./routes/users/[login].tsx";
 import * as $welcome from "./routes/welcome.tsx";
+import * as $AssetDonut from "./islands/AssetDonut.tsx";
+import * as $AssetForm from "./islands/AssetForm.tsx";
+import * as $AssetViewer from "./islands/AssetViewer.tsx";
 import * as $Chart from "./islands/Chart.tsx";
 import * as $ItemsList from "./islands/ItemsList.tsx";
 import * as $UsersTable from "./islands/UsersTable.tsx";
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
@@ -39,12 +45,15 @@ const manifest = {
     "./routes/account/upgrade.ts": $account_upgrade,
     "./routes/api/items/[id].ts": $api_items_id_,
     "./routes/api/items/index.ts": $api_items_index,
+    "./routes/api/me/assets.ts": $api_me_assets,
     "./routes/api/me/votes.ts": $api_me_votes,
     "./routes/api/stripe-webhooks.ts": $api_stripe_webhooks,
+    "./routes/api/users/[login]/assets.ts": $api_users_login_assets,
     "./routes/api/users/[login]/index.ts": $api_users_login_index,
     "./routes/api/users/[login]/items.ts": $api_users_login_items,
     "./routes/api/users/index.ts": $api_users_index,
     "./routes/api/vote.ts": $api_vote,
+    "./routes/assets.tsx": $assets,
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/stats.tsx": $dashboard_stats,
     "./routes/dashboard/users.tsx": $dashboard_users,
@@ -55,6 +64,9 @@ const manifest = {
     "./routes/welcome.tsx": $welcome,
   },
   islands: {
+    "./islands/AssetDonut.tsx": $AssetDonut,
+    "./islands/AssetForm.tsx": $AssetForm,
+    "./islands/AssetViewer.tsx": $AssetViewer,
     "./islands/Chart.tsx": $Chart,
     "./islands/ItemsList.tsx": $ItemsList,
     "./islands/UsersTable.tsx": $UsersTable,

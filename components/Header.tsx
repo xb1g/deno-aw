@@ -94,7 +94,7 @@ export default function Header(props: HeaderProps) {
             href="/submit"
             class="text-center text-white rounded-[7px] transition duration-300 px-4 py-2 block hover:bg-white hover:text-black hover:dark:bg-gray-900 hover:dark:!text-white"
           >
-            Submit
+            Add asset
           </a>
         </div>
       </nav>

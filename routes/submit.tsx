@@ -3,7 +3,7 @@ import Head from "@/components/Head.tsx";
 import IconCheckCircle from "tabler_icons_tsx/circle-check.tsx";
 import IconCircleX from "tabler_icons_tsx/circle-x.tsx";
 import { defineRoute, Handlers } from "$fresh/server.ts";
-import { createItem } from "@/utils/db.ts";
+import { createAsset, createItem } from "@/utils/db.ts";
 import { redirect } from "@/utils/http.ts";
 import {
   assertSignedIn,
@@ -12,6 +12,7 @@ import {
 } from "@/plugins/session.ts";
 import { ulid } from "$std/ulid/mod.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
+import AssetForm from "@/islands/AssetForm.tsx";
 
 const SUBMIT_STYLES =
   "w-full text-white text-center rounded-[7px] transition duration-300 px-4 py-2 block hover:bg-white hover:text-black hover:dark:bg-gray-900 hover:dark:!text-white";
@@ -20,27 +21,103 @@ export const handler: Handlers<undefined, SignedInState> = {
   async POST(req, ctx) {
     assertSignedIn(ctx);
 
-    const form = await req.formData();
-    const title = form.get("title");
-    const url = form.get("url");
+    console.log("submitting asset");
 
-    if (
-      typeof url !== "string" ||
-      !URL.canParse(url) ||
-      typeof title !== "string" ||
-      title === ""
-    ) {
-      return redirect("/submit?error");
+    const form = await req.formData();
+    const assetType = form.get("assetType")?.toString();
+
+    console.log(assetType, form);
+    // Validate required fields based on asset type
+    if (!assetType) {
+      return redirect("/submit?error=missing-type");
     }
 
-    await createItem({
+    const baseAsset = {
       id: ulid(),
       userLogin: ctx.state.sessionUser.login,
-      title,
-      url,
-      score: 0,
-    });
-    return redirect("/");
+      type: assetType,
+      createdAt: new Date(),
+    };
+
+    try {
+      switch (assetType) {
+        case "stock": {
+          const ticker = form.get("ticker")?.toString();
+          const amount = form.get("amount")?.toString();
+          const buyPrice = form.get("buyPrice")?.toString();
+
+          if (!ticker || !amount || !buyPrice) {
+            return redirect("/submit?error=missing-stock-fields");
+          }
+
+          await createAsset({
+            ...baseAsset,
+            ticker,
+            amount: Number(amount),
+            buyPrice: Number(buyPrice),
+          });
+          break;
+        }
+
+        case "gold": {
+          const date = form.get("date")?.toString();
+          const quantity = form.get("quantity")?.toString();
+
+          if (!quantity) {
+            return redirect("/submit?error=missing-gold-fields");
+          }
+
+          await createAsset({
+            ...baseAsset,
+            date: date ? new Date(date) : undefined,
+            quantity: Number(quantity),
+          });
+          break;
+        }
+
+        case "cash": {
+          const cashAmount = form.get("cashAmount")?.toString();
+          const currency = form.get("currency")?.toString();
+
+          if (!cashAmount || !currency) {
+            return redirect("/submit?error=missing-cash-fields");
+          }
+
+          await createAsset({
+            ...baseAsset,
+            cashAmount: Number(cashAmount),
+            currency,
+          });
+          break;
+        }
+
+        case "fund": {
+          const fundName = form.get("fundName")?.toString();
+          const fundAmount = form.get("fundAmount")?.toString();
+          const fundType = form.get("fundType")?.toString();
+
+          if (!fundName || !fundAmount || !fundType) {
+            return redirect("/submit?error=missing-fund-fields");
+          }
+
+          await createAsset({
+            ...baseAsset,
+            fundName,
+            fundAmount: Number(fundAmount),
+            fundType,
+          });
+          break;
+        }
+
+        default:
+          return redirect("/submit?error=invalid-type");
+      }
+
+      return redirect("/dashboard");
+    } catch (error) {
+      console.error(error);
+      return redirect("/submit?error=submission-failed");
+    }
   },
 };
 
@@ -50,14 +127,14 @@ export default defineRoute<State>((_req, ctx) => {
       <Head title="Submit" href={ctx.url.href} />
       <main class="flex-1 flex flex-col justify-center mx-auto w-full space-y-16 p-4 max-w-6xl">
         <div class="text-center">
-          <h1 class="heading-styles">Share your project</h1>
+          <h1 class="heading-styles">Add your asset</h1>
           <p class="text-gray-500">
-            Let the community know about your Deno-related blog post, video or
-            module!
+            Start tracking your wealth!
           </p>
         </div>
         <div class="flex flex-col md:flex-row gap-8 md:gap-16 md:items-center">
-          <div class="flex-1 space-y-6">
+          {
+            /* <div class="flex-1 space-y-6">
             <p>
               <IconCircleX class="inline-block mr-2" />
               <strong>Don't</strong> post duplicate content
@@ -73,8 +150,11 @@ export default defineRoute<State>((_req, ctx) => {
                 E.g. “Deno Hunt: the best place to share your Deno project”
               </div>
             </div>
-          </div>
-          <form class="flex-1 flex flex-col justify-center" method="post">
+          </div> */
+          }
+          <AssetForm />
+          {
+            /* <form class="flex-1 flex flex-col justify-center" method="post">
             <div>
               <label
                 htmlFor="submit_title"
@@ -93,6 +173,23 @@ export default defineRoute<State>((_req, ctx) => {
               />
             </div>
 
+            <div class="mt-4">
+              <label
+                htmlFor="submit_url"
+                class="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Type
+              </label>
+              <input
+                id="submit_url"
+                class="input-styles w-full mt-2"
+                type=""
+                name="url"
+                required
+                placeholder="https://my-awesome-project.com"
+                disabled={!ctx.state.sessionUser}
+              />
+            </div>
             <div class="mt-4">
               <label
                 htmlFor="submit_url"
@@ -125,7 +222,8 @@ export default defineRoute<State>((_req, ctx) => {
                 )
                 : <button class={SUBMIT_STYLES}>Submit</button>}
             </div>
-          </form>
+          </form> */
+          }
         </div>
       </main>
     </>

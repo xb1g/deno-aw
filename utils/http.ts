@@ -65,7 +65,23 @@ export async function fetchValues<T>(endpoint: string, cursor: string) {
   if (cursor !== "") url += "?cursor=" + cursor;
   const resp = await fetch(url);
   if (!resp.ok) throw new Error(`Request failed: GET ${url}`);
+
   return await resp.json() as { values: T[]; cursor: string };
+}
+
+/**
+ * Fetches values from an endpoint without pagination
+ * @example
+ * ```ts
+ * const body = await fetchValuesSimple<Item>("/api/items");
+ * body[0].id; // Returns "01H9YD2RVCYTBVJEYEJEV5D1S1"
+ * body[0].url; // Returns "http://example.com"
+ * ```
+ */
+export async function fetchValuesSimple<T>(endpoint: string): Promise<T[]> {
+  const resp = await fetch(endpoint);
+  if (!resp.ok) throw new Error(`Request failed: GET ${endpoint}`);
+  return await resp.json() as T[];
 }
 
 export class UnauthorizedError extends Error {

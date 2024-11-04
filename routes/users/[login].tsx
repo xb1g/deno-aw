@@ -7,6 +7,7 @@ import GitHubAvatarImg from "@/components/GitHubAvatarImg.tsx";
 import ItemsList from "@/islands/ItemsList.tsx";
 import { defineRoute } from "$fresh/server.ts";
 import { PremiumBadge } from "@/components/PremiumBadge.tsx";
+import AssetViewer from "@/islands/AssetViewer.tsx";
 
 interface UserProfileProps {
   login: string;
@@ -42,7 +43,8 @@ export default defineRoute<State>(
     if (user === null) return await ctx.renderNotFound();
 
     const isSignedIn = ctx.state.sessionUser !== undefined;
-    const endpoint = `/api/users/${login}/items`;
+    const endpoint = `/api/users/${login}/assets`;
+    console.log(endpoint);
 
     return (
       <>
@@ -66,9 +68,14 @@ export default defineRoute<State>(
           <div class="flex justify-center p-4">
             <UserProfile {...user} />
           </div>
-          <ItemsList
+          {
+            /*<ItemsList
             endpoint={endpoint}
             isSignedIn={isSignedIn}
+          /> */
+          }
+          <AssetViewer
+            endpoint={endpoint}
           />
         </main>
       </>

@@ -40,7 +40,26 @@ export interface Item {
   url: string;
   score: number;
 }
-
+export interface Asset {
+  id: string;
+  userLogin: string;
+  type: string;
+  createdAt: Date;
+  // Stock fields
+  ticker?: string;
+  amount?: number;
+  buyPrice?: number;
+  // Gold fields
+  date?: Date;
+  quantity?: number;
+  // Cash fields
+  cashAmount?: number;
+  currency?: string;
+  // Fund fields
+  fundName?: string;
+  fundAmount?: number;
+  fundType?: string;
+}
 /** For testing */
 export function randomItem(): Item {
   return {
@@ -84,6 +103,19 @@ export async function createItem(item: Item) {
   if (!res.ok) throw new Error("Failed to create item");
 }
 
+export async function createAsset(asset: Asset) {
+  const assetKey = ["assets", asset.id];
+  const assetsByUserKey = ["assets_by_user", asset.userLogin, asset.id];
+
+  const res = await kv.atomic()
+    .check({ key: assetKey, versionstamp: null })
+    .check({ key: assetsByUserKey, versionstamp: null })
+    .set(assetKey, asset)
+    .set(assetsByUserKey, asset)
+    .commit();
+
+  if (!res.ok) throw new Error("Failed to create asset");
+}
 /**
  * Gets the item with the given ID from the database.
  *
@@ -477,4 +509,22 @@ export async function getAreVotedByUser(items: Item[], userLogin: string) {
   const votedItems = await collectValues(listItemsVotedByUser(userLogin));
   const votedItemsIds = votedItems.map((item) => item.id);
   return items.map((item) => votedItemsIds.includes(item.id));
+}
+
+export async function getAllAssets(): Promise<Asset[]> {
+  const iterator = kv.list<Asset>({ prefix: ["assets"] });
+  const assets: Asset[] = [];
+  for await (const { value } of iterator) {
+    assets.push(value);
+  }
+  return assets;
+}
+
+export async function getUserAssets(userLogin: string): Promise<Asset[]> {
+  const iterator = kv.list<Asset>({ prefix: ["assets_by_user", userLogin] });
+  const assets: Asset[] = [];
+  for await (const { value } of iterator) {
+    assets.push(value);
+  }
+  return assets;
 }

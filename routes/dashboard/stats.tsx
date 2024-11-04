@@ -59,7 +59,8 @@ export default defineRoute((_req, ctx) => {
         />
         <Partial name="stats">
           <div class="flex-1 relative">
-            <Chart
+            {
+              /* <Chart
               type="line"
               options={{
                 maintainAspectRatio: false,
@@ -85,6 +86,19 @@ export default defineRoute((_req, ctx) => {
                   pointRadius: 0,
                   cubicInterpolationMode: "monotone",
                 })),
+              }}
+            /> */
+            }
+            <Chart
+              type="doughnut"
+              data={{
+                labels: ["Users", "Items", "Votes", "Visits"],
+                datasets: [{
+                  data: datasets.map((dataset) =>
+                    dataset.data.reduce((a, b) => a + b)
+                  ),
+                  backgroundColor: ["#be185d", "#219ebc", "#4338ca"],
+                }],
               }}
             />
           </div>

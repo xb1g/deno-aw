@@ -143,6 +143,7 @@ export default function ItemsList(props: ItemsListProps) {
         props.endpoint,
         cursorSig.value,
       );
+      console.log(values, "load");
       itemsSig.value = [...itemsSig.value, ...values];
       cursorSig.value = cursor;
     } catch (error) {
