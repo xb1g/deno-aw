@@ -57,7 +57,7 @@ export default function GrowthTable(props: GrowthTableProps) {
           currentPrice = asset.cashAmount || 0;
           break;
         case "fund":
-          currentPrice = priceDataSig.value.funds.get(asset.fundName!) || 0;
+          currentPrice = asset.fundAmount || 0; //priceDataSig.value.funds.get(asset.fundName!) || 0;
           break;
       }
       const growth =
@@ -90,9 +90,7 @@ export default function GrowthTable(props: GrowthTableProps) {
               <td class="border px-4 py-2">{asset.buyPrice}</td>
               <td class="border px-4 py-2">{asset.currentPrice}</td>
               <td class="border px-4 py-2">
-                {asset.type === "stock" || asset.type === "fund"
-                  ? `${asset.growth.toFixed(2)}%`
-                  : "-"}
+                {asset.type === "stock" ? `${asset.growth.toFixed(2)}%` : "-"}
               </td>
             </tr>
           ))}

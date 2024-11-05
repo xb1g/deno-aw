@@ -29,9 +29,9 @@ export default function Header(props: HeaderProps) {
           <img
             height="48"
             width="48"
-            src="/logo.webp"
+            src="/logo.jpg"
             alt={SITE_NAME + " logo"}
-            class="size-12"
+            class="size-12 aspect-square"
           />
         </a>
         <div class="gap-4 items-center hidden md:flex">
