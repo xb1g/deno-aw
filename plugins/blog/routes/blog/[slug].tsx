@@ -28,7 +28,7 @@ export default defineRoute(async (_req, ctx) => {
         )}
         <Share url={ctx.url} title={post.title} />
         <div
-          class="mt-8 markdown-body !bg-transparent !dark:text-white"
+          class="mt-8 markdown-body !bg-transparent !dark:text-black"
           data-color-mode="auto"
           data-light-theme="light"
           data-dark-theme="dark"

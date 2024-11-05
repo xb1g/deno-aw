@@ -273,7 +273,7 @@ const AssetForm = () => {
         {page === 2 && (
           <button
             type="submit"
-            className="flex items-center px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
+            className="flex items-center px-6 py-2 bg-primary text-black rounded-lg hover:bg-primary/90"
           >
             Submit
             <ArrowRight className="w-4 h-4 ml-2" />

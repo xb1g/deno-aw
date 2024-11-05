@@ -6,7 +6,7 @@ import IconUser from "tabler_icons_tsx/user.tsx";
 
 export default function TabBar() {
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-100 border-t border-gray-200 dark:border-gray-800">
       <div className="flex justify-around items-center h-16">
         <a
           href="/dashboard/stats"

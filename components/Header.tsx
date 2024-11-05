@@ -62,7 +62,7 @@ export default function Header(props: HeaderProps) {
       >
         <a
           href="/dashboard"
-          class="link-styles data-[ancestor]:!text-black data-[ancestor]:dark:!text-white nav-item"
+          class="link-styles data-[ancestor]:!text-black data-[ancestor]:dark:!text-black nav-item"
         >
           Dashboard
         </a>
@@ -70,7 +70,7 @@ export default function Header(props: HeaderProps) {
           (
             <a
               href="/pricing"
-              class="link-styles data-[current]:!text-black data-[current]:dark:!text-white nav-item"
+              class="link-styles data-[current]:!text-black data-[current]:dark:!text-black nav-item"
             >
               Pricing
             </a>
@@ -79,7 +79,7 @@ export default function Header(props: HeaderProps) {
           ? (
             <a
               href="/account"
-              class="link-styles data-[current]:!text-black data-[current]:dark:!text-white nav-item"
+              class="link-styles data-[current]:!text-black data-[current]:dark:!text-black nav-item"
             >
               Account
             </a>
@@ -92,7 +92,7 @@ export default function Header(props: HeaderProps) {
         <div class="rounded-lg bg-gradient-to-tr from-secondary to-primary p-px">
           <a
             href="/submit"
-            class="text-center text-white rounded-[7px] transition duration-300 px-4 py-2 block hover:bg-white hover:text-black hover:dark:bg-gray-900 hover:dark:!text-white"
+            class="text-center text-black rounded-[7px] transition duration-300 px-4 py-2 block hover:bg-white hover:text-black hover:dark:bg-gray-100 hover:dark:!text-black"
           >
             Add asset
           </a>

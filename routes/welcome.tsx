@@ -5,7 +5,7 @@ import { isGitHubSetup } from "@/utils/github.ts";
 
 function SetupInstruction() {
   return (
-    <div class="bg-green-50 dark:bg-gray-900 dark:border dark:border-green-800 rounded-xl max-w-screen-sm mx-auto p-8 space-y-2">
+    <div class="bg-green-50 dark:bg-gray-100 dark:border dark:border-green-800 rounded-xl max-w-screen-sm mx-auto p-8 space-y-2">
       <h1 class="text-2xl font-medium">Welcome to SaaSKit!</h1>
 
       <p class="text-gray-600 dark:text-gray-400">
@@ -32,11 +32,11 @@ function SetupInstruction() {
 
       <p class="text-gray-600 dark:text-gray-400">
         After setting up{" "}
-        <span class="bg-green-100 dark:bg-gray-800 p-1 rounded">
+        <span class="bg-green-100 dark:bg-gray-200 p-1 rounded">
           GITHUB_CLIENT_ID
         </span>{" "}
         and{" "}
-        <span class="bg-green-100 dark:bg-gray-800 p-1 rounded">
+        <span class="bg-green-100 dark:bg-gray-200 p-1 rounded">
           GITHUB_CLIENT_SECRET
         </span>
         , this message will disappear.

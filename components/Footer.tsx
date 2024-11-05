@@ -59,7 +59,7 @@ export default function Footer() {
           /* <nav class="nav-styles">
         <a
         href="/blog"
-        class="link-styles data-[current]:!text-black data-[current]:dark:!text-white"
+        class="link-styles data-[current]:!text-black data-[current]:dark:!text-black"
         >
         Blog
         </a>

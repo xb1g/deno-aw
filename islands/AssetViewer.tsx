@@ -44,6 +44,28 @@ export default function AssetViewer(props: AssetViewerProps) {
     return () => clearInterval(interval);
   }, []);
 
+  const totalAssetValueSig = useComputed(() => {
+    return assetsSig.value.reduce((total, asset) => {
+      let currentPrice = 0;
+      switch (asset.type) {
+        case "stock":
+          currentPrice = priceDataSig.value.stocks.get(asset.ticker!) || 0;
+          return total + (asset.amount || 0) * currentPrice;
+        case "gold":
+          return total + (asset.quantity || 0) * priceDataSig.value.goldPrice;
+        case "cash":
+          const rate = priceDataSig.value.exchangeRates.get(asset.currency!) ||
+            1;
+          return total + (asset.cashAmount || 0) / rate;
+        case "fund":
+          const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
+          return total + (asset.fundAmount || 0) * nav;
+        default:
+          return total;
+      }
+    }, 0) * thbExchangeRateSig.value; // Convert to THB
+  });
+
   const chartDataSig = useComputed(() => {
     const assetTypes = ["stock", "gold", "cash", "fund"];
     const assetValues = assetTypes.map((type) => {
@@ -63,7 +85,8 @@ export default function AssetViewer(props: AssetViewerProps) {
 
         case "gold":
           totalValue = assetsByType.reduce(
-            (sum, asset) => sum + (asset.quantity || 0) * 1900,
+            (sum, asset) =>
+              sum + (asset.quantity || 0) * priceDataSig.value.goldPrice,
             0,
           );
           break;
@@ -79,7 +102,7 @@ export default function AssetViewer(props: AssetViewerProps) {
         case "fund":
           totalValue = assetsByType.reduce((sum, asset) => {
             const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
-            return sum + (asset.fundAmount || 0); // * nav;
+            return sum + (asset.fundAmount || 0) * nav;
           }, 0);
           break;
       }
@@ -114,6 +137,11 @@ export default function AssetViewer(props: AssetViewerProps) {
 
   return (
     <div class="w-full h-[400px] relative">
+      <div class="text-center mb-4">
+        <h2 class="text-xl font-semibold">
+          Total Asset Value: ฿{totalAssetValueSig.value.toLocaleString()}
+        </h2>
+      </div>
       <Chart
         type="doughnut"
         data={chartDataSig.value}

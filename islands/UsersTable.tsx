@@ -11,7 +11,7 @@ const TD_STYLES = "p-4";
 
 function UserTableRow(props: User) {
   return (
-    <tr class="hover:bg-gray-50 hover:dark:bg-gray-900 border-b border-gray-200">
+    <tr class="hover:bg-gray-50 hover:dark:bg-gray-100 border-b border-gray-200">
       <td scope="col" class={TD_STYLES}>
         <GitHubAvatarImg login={props.login} size={32} />
         <a
