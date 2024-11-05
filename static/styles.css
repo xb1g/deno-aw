@@ -40,3 +40,9 @@
 .heading-with-margin-styles {
   @apply text-3xl font-bold mb-8;
 }
+
+@layer components {
+  .main-content {
+    @apply pb-16 md:pb-0; /* Add padding bottom on mobile */
+  }
+}

@@ -3,6 +3,7 @@ import { SITE_NAME } from "@/utils/constants.ts";
 import IconBrandDiscord from "tabler_icons_tsx/brand-discord.tsx";
 import IconBrandGithub from "tabler_icons_tsx/brand-github.tsx";
 import IconRss from "tabler_icons_tsx/rss.tsx";
+import TabBar from "@/components/TabBar.tsx";
 
 function MadeWithFreshBadge() {
   return (
@@ -51,38 +52,42 @@ function MadeWithFreshBadge() {
 
 export default function Footer() {
   return (
-    <footer class="site-bar-styles flex-col md:flex-row mt-8">
-      <p>© {SITE_NAME}</p>
-      <nav class="nav-styles">
+    <>
+      <footer class="site-bar-styles flex-col hidden md:flex-row mt-8">
+        <p>© {SITE_NAME}</p>
+        {
+          /* <nav class="nav-styles">
         <a
-          href="/blog"
-          class="link-styles data-[current]:!text-black data-[current]:dark:!text-white"
+        href="/blog"
+        class="link-styles data-[current]:!text-black data-[current]:dark:!text-white"
         >
-          Blog
+        Blog
         </a>
         <a href="/feed" aria-label="Deno Hunt RSS Feed" class="link-styles">
-          <IconRss class="size-6" />
+        <IconRss class="size-6" />
         </a>
         <a
-          href="https://discord.gg/deno"
-          target="_blank"
-          aria-label="Deno SaaSKit on Discord"
-          class="link-styles"
+        href="https://discord.gg/deno"
+        target="_blank"
+        aria-label="Deno SaaSKit on Discord"
+        class="link-styles"
         >
-          <IconBrandDiscord class="size-6" />
+        <IconBrandDiscord class="size-6" />
         </a>
         <a
           href="https://github.com/denoland/saaskit"
           target="_blank"
           aria-label="Deno SaaSKit repo on GitHub"
           class="link-styles"
-        >
+          >
           <IconBrandGithub class="size-6" />
-        </a>
-        <a href="https://fresh.deno.dev">
-          {/* <MadeWithFreshBadge /> */}
-        </a>
-      </nav>
-    </footer>
+          </a>
+          <a href="https://fresh.deno.dev">
+          </a>
+          </nav> */
+        }
+      </footer>
+      <TabBar />
+    </>
   );
 }

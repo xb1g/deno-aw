@@ -4,6 +4,7 @@ import { useEffect } from "preact/hooks";
 import type { Asset } from "@/utils/db.ts";
 import Chart from "@/islands/Chart.tsx";
 import { fetchValuesSimple } from "@/utils/http.ts";
+import { fetchPriceData, PriceData } from "@/utils/price_data.ts";
 
 export interface AssetViewerProps {
   endpoint: string;
@@ -12,49 +13,79 @@ export interface AssetViewerProps {
 export default function AssetViewer(props: AssetViewerProps) {
   const assetsSig = useSignal<Asset[]>([]);
   const isLoadingSig = useSignal<boolean>(true);
+  const priceDataSig = useSignal<PriceData>({
+    stocks: new Map(),
+    goldPrice: 0,
+    exchangeRates: new Map(),
+    funds: new Map(),
+  });
+  const thbExchangeRateSig = useSignal<number>(1);
+
+  async function loadAssets() {
+    if (!isLoadingSig.value) return;
+    try {
+      const values = await fetchValuesSimple<Asset>(props.endpoint);
+      assetsSig.value = values;
+      await fetchPriceData(values, priceDataSig, thbExchangeRateSig);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      isLoadingSig.value = false;
+    }
+  }
+
+  useEffect(() => {
+    loadAssets();
+    // Refresh prices every 5 minutes
+    const interval = setInterval(() => {
+      fetchPriceData(assetsSig.value, priceDataSig, thbExchangeRateSig);
+    }, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const chartDataSig = useComputed(() => {
     const assetTypes = ["stock", "gold", "cash", "fund"];
-    console.log(assetsSig.value);
     const assetValues = assetTypes.map((type) => {
       const assetsByType = assetsSig.value.filter((asset) =>
         asset.type === type
       );
-      console.log(assetsByType, "tyep");
 
       let totalValue = 0;
-      console.log(type);
       switch (type) {
         case "stock":
-          totalValue = assetsByType.reduce(
-            (sum, asset) => sum + (asset.amount || 0) * (asset.buyPrice || 0),
-            0,
-          );
+          totalValue = assetsByType.reduce((sum, asset) => {
+            const currentPrice = priceDataSig.value.stocks.get(asset.ticker!) ||
+              0;
+            return sum + (asset.amount || 0) * currentPrice;
+          }, 0);
           break;
+
         case "gold":
           totalValue = assetsByType.reduce(
             (sum, asset) => sum + (asset.quantity || 0) * 1900,
             0,
-          ); // Using $1900/oz as example price
+          );
           break;
+
         case "cash":
-          totalValue = assetsByType.reduce(
-            (sum, asset) => sum + (asset.cashAmount || 0),
-            0,
-          );
+          totalValue = assetsByType.reduce((sum, asset) => {
+            const rate =
+              priceDataSig.value.exchangeRates.get(asset.currency!) || 1;
+            return sum + (asset.cashAmount || 0) / rate;
+          }, 0);
           break;
+
         case "fund":
-          totalValue = assetsByType.reduce(
-            (sum, asset) => sum + (asset.fundAmount || 0),
-            0,
-          );
+          totalValue = assetsByType.reduce((sum, asset) => {
+            const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
+            return sum + (asset.fundAmount || 0) * nav;
+          }, 0);
           break;
       }
-      console.log(totalValue, "total");
-      return totalValue;
+      return totalValue * thbExchangeRateSig.value; // Convert to THB
     });
 
-    console.log(assetValues, "asss");
     return {
       labels: assetTypes.map((type) =>
         type.charAt(0).toUpperCase() + type.slice(1)
@@ -66,32 +97,16 @@ export default function AssetViewer(props: AssetViewerProps) {
     };
   });
 
-  async function loadAssets() {
-    if (!isLoadingSig.value) return;
-    try {
-      const values = await fetchValuesSimple<Asset>(props.endpoint);
-      assetsSig.value = values;
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      isLoadingSig.value = false;
-    }
-  }
-
-  useEffect(() => {
-    loadAssets();
-  }, []);
-
   if (isLoadingSig.value) {
-    return <p class="text-center p-4">Loading...</p>;
+    return <p class="text-center p-4">กำลังโหลด...</p>;
   }
 
   if (!assetsSig.value.length) {
     return (
       <div class="text-center p-4">
-        <p>No assets found</p>
+        <p>ไม่พบสินทรัพย์</p>
         <a href="/submit" class="text-primary hover:underline">
-          Add your first asset &#8250;
+          เพิ่มสินทรัพย์แรกของคุณ &#8250;
         </a>
       </div>
     );
@@ -108,7 +123,7 @@ export default function AssetViewer(props: AssetViewerProps) {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  return `$${context.parsed.toLocaleString()}`;
+                  return `฿${context.parsed.toLocaleString()}`;
                 },
               },
             },

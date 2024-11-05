@@ -1,5 +1,5 @@
 // utils/data.ts
-import yf from "yf";
+// import yf from "yf";
 
 const ALPHA_VANTAGE_API_KEY = "2G4NBA0DKU2TSF6B";
 
@@ -31,10 +31,9 @@ export async function fetchStockPrices(
 export async function fetchGoldPrice(): Promise<number> {
   try {
     console.log("fetching gold price");
-    const result = await yf.quote("GC=F"); // Gold futures symbol
-    // const result = setTimeout(() => {
-    //   return { regularMarketPrice: 1000 };
-    // }, 2000);
+    // const result = await yf.quote("GC=F"); // Gold futures symbol
+    const result = { regularMarketPrice: 1000 };
+
     console.log(result, "ress");
     if (!result || !result.regularMarketPrice) {
       throw new Error("Failed to fetch gold price");

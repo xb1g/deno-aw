@@ -34,7 +34,7 @@ export default function Header(props: HeaderProps) {
             class="size-12"
           />
         </a>
-        <div class="flex gap-4 items-center">
+        <div class="gap-4 items-center hidden md:flex">
           <label
             tabIndex={0}
             class="sm:hidden"
@@ -58,7 +58,7 @@ export default function Header(props: HeaderProps) {
         `}
       </script>
       <nav
-        class={"hidden flex-col gap-x-4 divide-y divide-solid sm:flex sm:items-center sm:flex-row sm:divide-y-0 peer-checked:flex"}
+        class={"hidden flex-col gap-x-4 divide-y divide-solid md:flex md:flex-row peer-checked:flex"}
       >
         <a
           href="/dashboard"

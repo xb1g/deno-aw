@@ -4,43 +4,44 @@ import Head from "@/components/Head.tsx";
 import TabsBar from "@/components/TabsBar.tsx";
 import { defineRoute } from "$fresh/server.ts";
 import { Partial } from "$fresh/runtime.ts";
+import AssetViewer from "@/islands/AssetViewer.tsx";
 
 function randomNumbers(length: number) {
   return Array.from({ length }, () => Math.floor(Math.random() * 1000));
 }
 
 export default defineRoute((_req, ctx) => {
-  const labels = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-  const datasets = [
-    {
-      label: "Site visits",
-      data: randomNumbers(labels.length),
-      borderColor: "#be185d",
-    },
-    {
-      label: "Users created",
-      data: randomNumbers(labels.length),
-      borderColor: "#e85d04",
-    },
-    {
-      label: "Items created",
-      data: randomNumbers(labels.length),
-      borderColor: "#219ebc",
-    },
-    {
-      label: "Votes",
-      data: randomNumbers(labels.length),
-      borderColor: "#4338ca",
-    },
-  ];
+  // const labels = [
+  //   "Monday",
+  //   "Tuesday",
+  //   "Wednesday",
+  //   "Thursday",
+  //   "Friday",
+  //   "Saturday",
+  //   "Sunday",
+  // ];
+  // const datasets = [
+  //   {
+  //     label: "Site visits",
+  //     data: randomNumbers(labels.length),
+  //     borderColor: "#be185d",
+  //   },
+  //   {
+  //     label: "Users created",
+  //     data: randomNumbers(labels.length),
+  //     borderColor: "#e85d04",
+  //   },
+  //   {
+  //     label: "Items created",
+  //     data: randomNumbers(labels.length),
+  //     borderColor: "#219ebc",
+  //   },
+  //   {
+  //     label: "Votes",
+  //     data: randomNumbers(labels.length),
+  //     borderColor: "#4338ca",
+  //   },
+  // ];
 
   return (
     <>
@@ -52,8 +53,8 @@ export default defineRoute((_req, ctx) => {
             path: "/dashboard/stats",
             innerText: "Stats",
           }, {
-            path: "/dashboard/users",
-            innerText: "Users",
+            path: "/dashboard/growth",
+            innerText: "Growth",
           }]}
           currentPath={ctx.url.pathname}
         />
@@ -89,18 +90,7 @@ export default defineRoute((_req, ctx) => {
               }}
             /> */
             }
-            <Chart
-              type="doughnut"
-              data={{
-                labels: ["Users", "Items", "Votes", "Visits"],
-                datasets: [{
-                  data: datasets.map((dataset) =>
-                    dataset.data.reduce((a, b) => a + b)
-                  ),
-                  backgroundColor: ["#be185d", "#219ebc", "#4338ca"],
-                }],
-              }}
-            />
+            <AssetViewer endpoint="/api/me/assets" />
           </div>
         </Partial>
       </main>
