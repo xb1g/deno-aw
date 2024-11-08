@@ -60,6 +60,14 @@ export interface Asset {
   fundAmount?: number;
   fundType?: string;
 }
+export interface RetirementPlan {
+  id: string;
+  userLogin: string;
+  retirementAge: number;
+  currentSavings: number;
+  monthlyContribution: number;
+  expectedReturnRate: number;
+}
 /** For testing */
 export function randomItem(): Item {
   return {
@@ -116,121 +124,16 @@ export async function createAsset(asset: Asset) {
 
   if (!res.ok) throw new Error("Failed to create asset");
 }
-/**
- * Gets the item with the given ID from the database.
- *
- * @example
- * ```ts
- * import { getItem } from "@/utils/db.ts";
- *
- * const item = await getItem("01H9YD2RVCYTBVJEYEJEV5D1S1");
- * item?.id; // Returns "01H9YD2RVCYTBVJEYEJEV5D1S1";
- * item?.userLogin; // Returns "snoop"
- * item?.title; // Returns "example-title"
- * item?.url; // Returns "http://example.com"
- * item?.score; // Returns 420
- * ```
- */
-export async function getItem(id: string) {
-  const res = await kv.get<Item>(["items", id]);
-  return res.value;
-}
 
-/**
- * Returns a {@linkcode Deno.KvListIterator} which can be used to iterate over
- * the items in the database, in chronological order.
- *
- * @example
- * ```ts
- * import { listItems } from "@/utils/db.ts";
- *
- * for await (const entry of listItems()) {
- *   entry.value.id; // Returns "01H9YD2RVCYTBVJEYEJEV5D1S1"
- *   entry.value.userLogin; // Returns "pedro"
- *   entry.key; // Returns ["items_voted_by_user", "01H9YD2RVCYTBVJEYEJEV5D1S1", "pedro"]
- *   entry.versionstamp; // Returns "00000000000000010000"
- * }
- * ```
- */
-export function listItems(options?: Deno.KvListOptions) {
-  return kv.list<Item>({ prefix: ["items"] }, options);
-}
-
-/**
- * Returns a {@linkcode Deno.KvListIterator} which can be used to iterate over
- * the items by a given user in the database, in chronological order.
- *
- * @example
- * ```ts
- * import { listItemsByUser } from "@/utils/db.ts";
- *
- * for await (const entry of listItemsByUser("pedro")) {
- *   entry.value.id; // Returns "01H9YD2RVCYTBVJEYEJEV5D1S1"
- *   entry.value.userLogin; // Returns "pedro"
- *   entry.key; // Returns ["items_voted_by_user", "01H9YD2RVCYTBVJEYEJEV5D1S1", "pedro"]
- *   entry.versionstamp; // Returns "00000000000000010000"
- * }
- * ```
- */
-export function listItemsByUser(
-  userLogin: string,
-  options?: Deno.KvListOptions,
-) {
-  return kv.list<Item>({ prefix: ["items_by_user", userLogin] }, options);
-}
-
-// Vote
-export interface Vote {
-  itemId: string;
-  userLogin: string;
-}
-
-/**
- * Creates a vote in the database. Throws if the given item or user doesn't
- * exist or the vote already exists. The item's score is incremented by 1.
- *
- * @example
- * ```ts
- * import { createVote } from "@/utils/db.ts";
- *
- * await createVote({
- *   itemId: "01H9YD2RVCYTBVJEYEJEV5D1S1",
- *   userLogin: "pedro",
- * });
- * ```
- */
-export async function createVote(vote: Vote) {
-  const itemKey = ["items", vote.itemId];
-  const userKey = ["users", vote.userLogin];
-  const [itemRes, userRes] = await kv.getMany<[Item, User]>([itemKey, userKey]);
-  const item = itemRes.value;
-  const user = userRes.value;
-  if (item === null) throw new Deno.errors.NotFound("Item not found");
-  if (user === null) throw new Deno.errors.NotFound("User not found");
-
-  const itemVotedByUserKey = [
-    "items_voted_by_user",
-    vote.userLogin,
-    vote.itemId,
-  ];
-  const userVotedForItemKey = [
-    "users_voted_for_item",
-    vote.itemId,
-    vote.userLogin,
-  ];
-  const itemByUserKey = ["items_by_user", item.userLogin, item.id];
-
-  item.score++;
+export async function createRetirementPlan(plan: RetirementPlan) {
+  const planKey = ["retirement_plans", plan.id];
+  const plansByUserKey = ["retirement_plans_by_user", plan.userLogin, plan.id];
 
   const res = await kv.atomic()
-    .check(itemRes)
-    .check(userRes)
-    .check({ key: itemVotedByUserKey, versionstamp: null })
-    .check({ key: userVotedForItemKey, versionstamp: null })
-    .set(itemKey, item)
-    .set(itemByUserKey, item)
-    .set(itemVotedByUserKey, item)
-    .set(userVotedForItemKey, user)
+    .check({ key: planKey, versionstamp: null })
+    .check({ key: plansByUserKey, versionstamp: null })
+    .set(planKey, plan)
+    .set(plansByUserKey, plan)
     .commit();
 
   if (!res.ok) throw new Error("Failed to create vote");

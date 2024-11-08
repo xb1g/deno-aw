@@ -8,16 +8,13 @@ import * as $_app from "./routes/_app.tsx";
 import * as $account_index from "./routes/account/index.tsx";
 import * as $account_manage from "./routes/account/manage.ts";
 import * as $account_upgrade from "./routes/account/upgrade.ts";
-import * as $api_items_id_ from "./routes/api/items/[id].ts";
-import * as $api_items_index from "./routes/api/items/index.ts";
 import * as $api_me_assets from "./routes/api/me/assets.ts";
 import * as $api_me_votes from "./routes/api/me/votes.ts";
+import * as $api_retirement_plan from "./routes/api/retirement-plan.ts";
 import * as $api_stripe_webhooks from "./routes/api/stripe-webhooks.ts";
 import * as $api_users_login_assets from "./routes/api/users/[login]/assets.ts";
 import * as $api_users_login_index from "./routes/api/users/[login]/index.ts";
-import * as $api_users_login_items from "./routes/api/users/[login]/items.ts";
 import * as $api_users_index from "./routes/api/users/index.ts";
-import * as $api_vote from "./routes/api/vote.ts";
 import * as $api_yf_chart from "./routes/api/yf/chart.ts";
 import * as $api_yf_quote from "./routes/api/yf/quote.ts";
 import * as $api_yf_search from "./routes/api/yf/search.ts";
@@ -26,9 +23,11 @@ import * as $assets_gold from "./routes/assets/gold.tsx";
 import * as $assets_stocks from "./routes/assets/stocks.tsx";
 import * as $dashboard_growth from "./routes/dashboard/growth.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
+import * as $dashboard_plan from "./routes/dashboard/plan.tsx";
 import * as $dashboard_stats from "./routes/dashboard/stats.tsx";
 import * as $dashboard_users from "./routes/dashboard/users.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $plan from "./routes/plan.tsx";
 import * as $pricing from "./routes/pricing.tsx";
 import * as $submit from "./routes/submit.tsx";
 import * as $users_login_ from "./routes/users/[login].tsx";
@@ -40,6 +39,8 @@ import * as $Chart from "./islands/Chart.tsx";
 import * as $GoldChart from "./islands/GoldChart.tsx";
 import * as $GrowthTable from "./islands/GrowthTable.tsx";
 import * as $ItemsList from "./islands/ItemsList.tsx";
+import * as $RetirementPlan from "./islands/RetirementPlan.tsx";
+import * as $RetirementProgress from "./islands/RetirementProgress.tsx";
 import * as $StockChart from "./islands/StockChart.tsx";
 import * as $UsersTable from "./islands/UsersTable.tsx";
 import type { Manifest } from "$fresh/server.ts";
@@ -52,16 +53,13 @@ const manifest = {
     "./routes/account/index.tsx": $account_index,
     "./routes/account/manage.ts": $account_manage,
     "./routes/account/upgrade.ts": $account_upgrade,
-    "./routes/api/items/[id].ts": $api_items_id_,
-    "./routes/api/items/index.ts": $api_items_index,
     "./routes/api/me/assets.ts": $api_me_assets,
     "./routes/api/me/votes.ts": $api_me_votes,
+    "./routes/api/retirement-plan.ts": $api_retirement_plan,
     "./routes/api/stripe-webhooks.ts": $api_stripe_webhooks,
     "./routes/api/users/[login]/assets.ts": $api_users_login_assets,
     "./routes/api/users/[login]/index.ts": $api_users_login_index,
-    "./routes/api/users/[login]/items.ts": $api_users_login_items,
     "./routes/api/users/index.ts": $api_users_index,
-    "./routes/api/vote.ts": $api_vote,
     "./routes/api/yf/chart.ts": $api_yf_chart,
     "./routes/api/yf/quote.ts": $api_yf_quote,
     "./routes/api/yf/search.ts": $api_yf_search,
@@ -70,9 +68,11 @@ const manifest = {
     "./routes/assets/stocks.tsx": $assets_stocks,
     "./routes/dashboard/growth.tsx": $dashboard_growth,
     "./routes/dashboard/index.tsx": $dashboard_index,
+    "./routes/dashboard/plan.tsx": $dashboard_plan,
     "./routes/dashboard/stats.tsx": $dashboard_stats,
     "./routes/dashboard/users.tsx": $dashboard_users,
     "./routes/index.tsx": $index,
+    "./routes/plan.tsx": $plan,
     "./routes/pricing.tsx": $pricing,
     "./routes/submit.tsx": $submit,
     "./routes/users/[login].tsx": $users_login_,
@@ -86,6 +86,8 @@ const manifest = {
     "./islands/GoldChart.tsx": $GoldChart,
     "./islands/GrowthTable.tsx": $GrowthTable,
     "./islands/ItemsList.tsx": $ItemsList,
+    "./islands/RetirementPlan.tsx": $RetirementPlan,
+    "./islands/RetirementProgress.tsx": $RetirementProgress,
     "./islands/StockChart.tsx": $StockChart,
     "./islands/UsersTable.tsx": $UsersTable,
   },

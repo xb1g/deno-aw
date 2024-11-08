@@ -3,6 +3,7 @@ import IconHome from "tabler_icons_tsx/home.tsx";
 import IconChartLine from "tabler_icons_tsx/chart-line.tsx";
 import IconPlus from "tabler_icons_tsx/plus.tsx";
 import IconUser from "tabler_icons_tsx/user.tsx";
+import IconBeach from "tabler_icons_tsx/beach.tsx";
 
 export default function TabBar() {
   return (
@@ -28,6 +29,14 @@ export default function TabBar() {
         >
           <IconPlus className="w-6 h-6" />
           <span className="text-xs mt-1">Add</span>
+        </a>
+        <a
+          href="/plan"
+          className="flex flex-col items-center text-gray-500 hover:text-primary"
+        >
+          {/* < className="w-6 h-6" /> */}
+          <IconBeach className="w-6 h-6" />
+          <span className="text-xs mt-1">Plan</span>
         </a>
         <a
           href="/account"
