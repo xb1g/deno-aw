@@ -22,6 +22,7 @@ import * as $api_yf_chart from "./routes/api/yf/chart.ts";
 import * as $api_yf_quote from "./routes/api/yf/quote.ts";
 import * as $api_yf_search from "./routes/api/yf/search.ts";
 import * as $assets from "./routes/assets.tsx";
+import * as $assets_gold from "./routes/assets/gold.tsx";
 import * as $assets_stocks from "./routes/assets/stocks.tsx";
 import * as $dashboard_growth from "./routes/dashboard/growth.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
@@ -36,6 +37,7 @@ import * as $AssetDonut from "./islands/AssetDonut.tsx";
 import * as $AssetForm from "./islands/AssetForm.tsx";
 import * as $AssetViewer from "./islands/AssetViewer.tsx";
 import * as $Chart from "./islands/Chart.tsx";
+import * as $GoldChart from "./islands/GoldChart.tsx";
 import * as $GrowthTable from "./islands/GrowthTable.tsx";
 import * as $ItemsList from "./islands/ItemsList.tsx";
 import * as $StockChart from "./islands/StockChart.tsx";
@@ -64,6 +66,7 @@ const manifest = {
     "./routes/api/yf/quote.ts": $api_yf_quote,
     "./routes/api/yf/search.ts": $api_yf_search,
     "./routes/assets.tsx": $assets,
+    "./routes/assets/gold.tsx": $assets_gold,
     "./routes/assets/stocks.tsx": $assets_stocks,
     "./routes/dashboard/growth.tsx": $dashboard_growth,
     "./routes/dashboard/index.tsx": $dashboard_index,
@@ -80,6 +83,7 @@ const manifest = {
     "./islands/AssetForm.tsx": $AssetForm,
     "./islands/AssetViewer.tsx": $AssetViewer,
     "./islands/Chart.tsx": $Chart,
+    "./islands/GoldChart.tsx": $GoldChart,
     "./islands/GrowthTable.tsx": $GrowthTable,
     "./islands/ItemsList.tsx": $ItemsList,
     "./islands/StockChart.tsx": $StockChart,

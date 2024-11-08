@@ -1,5 +1,5 @@
 import Head from "@/components/Head.tsx";
-import StockChart from "@/islands/StockChart.tsx";
+import GoldChart from "@/islands/GoldChart.tsx";
 import { defineRoute } from "$fresh/server.ts";
 
 export default defineRoute((_req, ctx) => {
@@ -7,10 +7,10 @@ export default defineRoute((_req, ctx) => {
 
     return (
         <>
-            <Head title="Stocks Analysis" href={ctx.url.href} />
+            <Head title="Gold Analysis" href={ctx.url.href} />
             <main class="flex-1 p-4">
-                <h1 class="heading-with-margin-styles">Stocks Analysis</h1>
-                <StockChart endpoint={endpoint} />
+                <h1 class="heading-with-margin-styles">Gold Analysis</h1>
+                <GoldChart endpoint={endpoint} />
             </main>
         </>
     );
