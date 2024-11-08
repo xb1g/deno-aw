@@ -79,9 +79,11 @@ export async function fetchValues<T>(endpoint: string, cursor: string) {
  * ```
  */
 export async function fetchValuesSimple<T>(endpoint: string): Promise<T[]> {
-  const resp = await fetch(endpoint);
-  if (!resp.ok) throw new Error(`Request failed: GET ${endpoint}`);
-  return await resp.json() as T[];
+  const response = await fetch(endpoint);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch data from ${endpoint}`);
+  }
+  return response.json();
 }
 
 export class UnauthorizedError extends Error {

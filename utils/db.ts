@@ -49,15 +49,16 @@ export interface Asset {
   ticker?: string;
   amount?: number;
   buyPrice?: number;
+
   // Gold fields
-  date?: Date;
-  quantity?: number;
+  // buyPrice?: number;
+
   // Cash fields
-  cashAmount?: number;
+  // amount?: number;
   currency?: string;
   // Fund fields
   fundName?: string;
-  fundAmount?: number;
+  // amount?: number;
   fundType?: string;
 }
 /** For testing */

@@ -23,7 +23,7 @@ export default defineRoute<SignedInState>(async (_req, ctx) => {
     line_items: [
       {
         price: stripePremiumPlanPriceId,
-        quantity: 1,
+        amount: 1,
       },
     ],
     mode: "subscription",

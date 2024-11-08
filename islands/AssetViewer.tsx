@@ -52,14 +52,14 @@ export default function AssetViewer(props: AssetViewerProps) {
           currentPrice = priceDataSig.value.stocks.get(asset.ticker!) || 0;
           return total + (asset.amount || 0) * currentPrice;
         case "gold":
-          return total + (asset.quantity || 0) * priceDataSig.value.goldPrice;
+          return total + (asset.amount || 0) * priceDataSig.value.goldPrice;
         case "cash":
           const rate = priceDataSig.value.exchangeRates.get(asset.currency!) ||
             1;
-          return total + (asset.cashAmount || 0) / rate;
+          return total + (asset.amount || 0) / rate;
         case "fund":
           const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
-          return total + (asset.fundAmount || 0) * nav;
+          return total + (asset.amount || 0) * nav;
         default:
           return total;
       }
@@ -86,7 +86,7 @@ export default function AssetViewer(props: AssetViewerProps) {
         case "gold":
           totalValue = assetsByType.reduce(
             (sum, asset) =>
-              sum + (asset.quantity || 0) * priceDataSig.value.goldPrice,
+              sum + (asset.amount || 0) * priceDataSig.value.goldPrice,
             0,
           );
           break;
@@ -95,14 +95,14 @@ export default function AssetViewer(props: AssetViewerProps) {
           totalValue = assetsByType.reduce((sum, asset) => {
             const rate =
               priceDataSig.value.exchangeRates.get(asset.currency!) || 1;
-            return sum + (asset.cashAmount || 0) / rate;
+            return sum + (asset.amount || 0) / rate;
           }, 0);
           break;
 
         case "fund":
           totalValue = assetsByType.reduce((sum, asset) => {
             const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
-            return sum + (asset.fundAmount || 0) * nav;
+            return sum + (asset.amount || 0) * nav;
           }, 0);
           break;
       }

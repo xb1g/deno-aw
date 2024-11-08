@@ -1,14 +1,9 @@
 // Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
-import Chart from "@/islands/Chart.tsx";
 import Head from "@/components/Head.tsx";
 import TabsBar from "@/components/TabsBar.tsx";
 import { defineRoute } from "$fresh/server.ts";
 import { Partial } from "$fresh/runtime.ts";
 import AssetViewer from "@/islands/AssetViewer.tsx";
-
-function randomNumbers(length: number) {
-  return Array.from({ length }, () => Math.floor(Math.random() * 1000));
-}
 
 export default defineRoute((_req, ctx) => {
   // const labels = [

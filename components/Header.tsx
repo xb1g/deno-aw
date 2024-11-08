@@ -37,7 +37,7 @@ export default function Header(props: HeaderProps) {
         <div class="gap-4 items-center hidden md:flex">
           <label
             tabIndex={0}
-            class="sm:hidden"
+            class="sm:hidden flex"
             id="nav-toggle-label"
             htmlFor="nav-toggle"
           >

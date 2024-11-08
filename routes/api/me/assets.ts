@@ -11,6 +11,8 @@ export const handler: Handlers<undefined, SignedInState> = {
     const userLogin = ctx.state.sessionUser.login;
     const assets = await getUserAssets(userLogin);
 
+    console.log(assets, "ass"); // Check if data is logged
+
     return Response.json(assets);
   },
 };

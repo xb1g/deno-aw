@@ -51,13 +51,13 @@ export default function GrowthTable(props: GrowthTableProps) {
           currentPrice = priceDataSig.value.stocks.get(asset.ticker!) || 0;
           break;
         case "gold":
-          currentPrice = asset.quantity! * priceDataSig.value.goldPrice;
+          currentPrice = asset.amount! * priceDataSig.value.goldPrice;
           break;
         case "cash":
-          currentPrice = asset.cashAmount || 0;
+          currentPrice = asset.amount || 0;
           break;
         case "fund":
-          currentPrice = asset.fundAmount || 0; //priceDataSig.value.funds.get(asset.fundName!) || 0;
+          currentPrice = asset.amount || 0; //priceDataSig.value.funds.get(asset.fundName!) || 0;
           break;
       }
       const growth =
@@ -66,12 +66,23 @@ export default function GrowthTable(props: GrowthTableProps) {
     });
   });
 
+  const bestAssetSig = useComputed(() => {
+    return growthDataSig.value.reduce((best, asset) => {
+      return asset.growth > best.growth ? asset : best;
+    }, growthDataSig.value[0]);
+  });
+
   if (isLoadingSig.value) {
     return <p class="text-center p-4">กำลังโหลด...</p>;
   }
 
   return (
     <div class="w-full overflow-x-auto">
+      <h2 class="text-xl font-semibold mb-4">
+        Best Performing Asset:{" "}
+        {bestAssetSig.value.ticker || bestAssetSig.value.fundName}{" "}
+        ({bestAssetSig.value.growth.toFixed(2)}%)
+      </h2>
       <table class="table-auto w-full border-collapse">
         <thead>
           <tr>

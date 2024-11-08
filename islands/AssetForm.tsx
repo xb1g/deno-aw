@@ -6,24 +6,23 @@ import { fetchValues } from "@/utils/http.ts";
 import { PremiumBadge } from "@/components/PremiumBadge.tsx";
 import ArrowLeft from "tabler_icons_tsx/arrow-left.tsx";
 import ArrowRight from "tabler_icons_tsx/arrow-right.tsx";
+import { Asset } from "@/utils/db.ts";
 
 const AssetForm = () => {
   const [page, setPage] = useState(1);
   const [assetType, setAssetType] = useState("");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Asset>({
     // Stock fields
+    id: "",
+    userLogin: "",
+    type: "",
+    createdAt: new Date(),
+
     ticker: "",
-    amount: "",
-    buyPrice: "",
-    // Gold fields
-    date: "",
-    quantity: "",
-    // Cash fields
-    cashAmount: "",
+    amount: 0,
+    buyPrice: 0,
     currency: "",
-    // Fund fields
     fundName: "",
-    fundAmount: "",
     fundType: "",
   });
 
@@ -106,7 +105,7 @@ const AssetForm = () => {
             </div>
             <div>
               <label htmlFor="buyPrice" className={labelClass}>
-                Purchase Price
+                Purchase Price ($)
               </label>
               <input
                 type="number"
@@ -140,14 +139,14 @@ const AssetForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="quantity" className={labelClass}>
-                Quantity (grams)
+              <label htmlFor="amount" className={labelClass}>
+                Amount (grams)
               </label>
               <input
                 type="number"
-                id="quantity"
-                name="quantity"
-                value={formData.quantity}
+                id="amount"
+                name="amount"
+                value={formData.amount}
                 onChange={handleInputChange}
                 className={inputClass}
                 placeholder="100"
@@ -163,12 +162,14 @@ const AssetForm = () => {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-6">Cash Details</h2>
             <div>
-              <label htmlFor="cashAmount" className={labelClass}>Amount</label>
+              <label htmlFor="amount" className={labelClass}>
+                Amount (THB)
+              </label>
               <input
                 type="number"
-                id="cashAmount"
-                name="cashAmount"
-                value={formData.cashAmount}
+                id="amount"
+                name="amount"
+                value={formData.amount}
                 onChange={handleInputChange}
                 className={inputClass}
                 placeholder="10000"
@@ -185,12 +186,9 @@ const AssetForm = () => {
                 onChange={handleInputChange}
                 className={inputClass}
                 required
+                disabled
               >
-                <option value="">Select currency</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
                 <option value="THB">THB</option>
-                <option value="JPY">JPY</option>
               </select>
             </div>
           </div>
@@ -214,14 +212,14 @@ const AssetForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="fundAmount" className={labelClass}>
-                Investment Amount
+              <label htmlFor="amount" className={labelClass}>
+                Investment Amount ($)
               </label>
               <input
                 type="number"
-                id="fundAmount"
-                name="fundAmount"
-                value={formData.fundAmount}
+                id="amount"
+                name="amount"
+                value={formData.amount}
                 onChange={handleInputChange}
                 className={inputClass}
                 placeholder="10000"

@@ -61,31 +61,31 @@ export const handler: Handlers<undefined, SignedInState> = {
 
         case "gold": {
           const date = form.get("date")?.toString();
-          const quantity = form.get("quantity")?.toString();
+          const amount = form.get("amount")?.toString();
 
-          if (!quantity) {
+          if (!amount) {
             return redirect("/submit?error=missing-gold-fields");
           }
 
           await createAsset({
             ...baseAsset,
             date: date ? new Date(date) : undefined,
-            quantity: Number(quantity),
+            amount: Number(amount),
           });
           break;
         }
 
         case "cash": {
-          const cashAmount = form.get("cashAmount")?.toString();
+          const amount = form.get("amount")?.toString();
           const currency = form.get("currency")?.toString();
 
-          if (!cashAmount || !currency) {
+          if (!amount || !currency) {
             return redirect("/submit?error=missing-cash-fields");
           }
 
           await createAsset({
             ...baseAsset,
-            cashAmount: Number(cashAmount),
+            amount: Number(amount),
             currency,
           });
           break;
@@ -93,17 +93,17 @@ export const handler: Handlers<undefined, SignedInState> = {
 
         case "fund": {
           const fundName = form.get("fundName")?.toString();
-          const fundAmount = form.get("fundAmount")?.toString();
+          const amount = form.get("amount")?.toString();
           const fundType = form.get("fundType")?.toString();
 
-          if (!fundName || !fundAmount || !fundType) {
+          if (!fundName || !amount || !fundType) {
             return redirect("/submit?error=missing-fund-fields");
           }
 
           await createAsset({
             ...baseAsset,
             fundName,
-            fundAmount: Number(fundAmount),
+            amount: Number(amount),
             fundType,
           });
           break;

@@ -18,7 +18,13 @@ import * as $api_users_login_index from "./routes/api/users/[login]/index.ts";
 import * as $api_users_login_items from "./routes/api/users/[login]/items.ts";
 import * as $api_users_index from "./routes/api/users/index.ts";
 import * as $api_vote from "./routes/api/vote.ts";
-import * as $assets from "./routes/assets.tsx";
+import * as $api_yf_quote from "./routes/api/yf/quote.ts";
+import * as $api_yf_stocks from "./routes/api/yf/stocks.ts";
+import * as $assets_cash from "./routes/assets/cash.tsx";
+import * as $assets_gold from "./routes/assets/gold.tsx";
+import * as $assets_index from "./routes/assets/index.tsx";
+import * as $assets_plan from "./routes/assets/plan.tsx";
+import * as $assets_stock from "./routes/assets/stock.tsx";
 import * as $dashboard_growth from "./routes/dashboard/growth.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_stats from "./routes/dashboard/stats.tsx";
@@ -28,12 +34,14 @@ import * as $pricing from "./routes/pricing.tsx";
 import * as $submit from "./routes/submit.tsx";
 import * as $users_login_ from "./routes/users/[login].tsx";
 import * as $welcome from "./routes/welcome.tsx";
+import * as $AssetButtons from "./islands/AssetButtons.tsx";
 import * as $AssetDonut from "./islands/AssetDonut.tsx";
 import * as $AssetForm from "./islands/AssetForm.tsx";
 import * as $AssetViewer from "./islands/AssetViewer.tsx";
 import * as $Chart from "./islands/Chart.tsx";
 import * as $GrowthTable from "./islands/GrowthTable.tsx";
 import * as $ItemsList from "./islands/ItemsList.tsx";
+import * as $StatsChart from "./islands/StatsChart.tsx";
 import * as $UsersTable from "./islands/UsersTable.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -55,7 +63,13 @@ const manifest = {
     "./routes/api/users/[login]/items.ts": $api_users_login_items,
     "./routes/api/users/index.ts": $api_users_index,
     "./routes/api/vote.ts": $api_vote,
-    "./routes/assets.tsx": $assets,
+    "./routes/api/yf/quote.ts": $api_yf_quote,
+    "./routes/api/yf/stocks.ts": $api_yf_stocks,
+    "./routes/assets/cash.tsx": $assets_cash,
+    "./routes/assets/gold.tsx": $assets_gold,
+    "./routes/assets/index.tsx": $assets_index,
+    "./routes/assets/plan.tsx": $assets_plan,
+    "./routes/assets/stock.tsx": $assets_stock,
     "./routes/dashboard/growth.tsx": $dashboard_growth,
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/stats.tsx": $dashboard_stats,
@@ -67,12 +81,14 @@ const manifest = {
     "./routes/welcome.tsx": $welcome,
   },
   islands: {
+    "./islands/AssetButtons.tsx": $AssetButtons,
     "./islands/AssetDonut.tsx": $AssetDonut,
     "./islands/AssetForm.tsx": $AssetForm,
     "./islands/AssetViewer.tsx": $AssetViewer,
     "./islands/Chart.tsx": $Chart,
     "./islands/GrowthTable.tsx": $GrowthTable,
     "./islands/ItemsList.tsx": $ItemsList,
+    "./islands/StatsChart.tsx": $StatsChart,
     "./islands/UsersTable.tsx": $UsersTable,
   },
   baseUrl: import.meta.url,

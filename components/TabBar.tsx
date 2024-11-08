@@ -1,6 +1,6 @@
 // components/TabBar.tsx
 import IconHome from "tabler_icons_tsx/home.tsx";
-import IconChartLine from "tabler_icons_tsx/chart-line.tsx";
+import IconAnalytics from "tabler_icons_tsx/device-analytics.tsx";
 import IconPlus from "tabler_icons_tsx/plus.tsx";
 import IconUser from "tabler_icons_tsx/user.tsx";
 
@@ -16,11 +16,11 @@ export default function TabBar() {
           <span className="text-xs mt-1">Dashboard</span>
         </a>
         <a
-          href="/dashboard/growth"
+          href="/assets"
           className="flex flex-col items-center text-gray-500 hover:text-primary"
         >
-          <IconChartLine className="w-6 h-6" />
-          <span className="text-xs mt-1">Growth</span>
+          <IconAnalytics className="w-6 h-6" />
+          <span className="text-xs mt-1">Analyze</span>
         </a>
         <a
           href="/submit"
