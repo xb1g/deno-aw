@@ -28,6 +28,12 @@ export default defineRoute((_req, ctx) => {
           }]}
           currentPath={ctx.url.pathname}
         />
+        <a
+          class="btn-styles inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          href="/assets/stocks"
+        >
+          Stocks Analysis
+        </a>
         <Partial name="growth">
           <GrowthTable endpoint="/api/me/assets" />
         </Partial>

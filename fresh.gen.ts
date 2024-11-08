@@ -18,7 +18,11 @@ import * as $api_users_login_index from "./routes/api/users/[login]/index.ts";
 import * as $api_users_login_items from "./routes/api/users/[login]/items.ts";
 import * as $api_users_index from "./routes/api/users/index.ts";
 import * as $api_vote from "./routes/api/vote.ts";
+import * as $api_yf_chart from "./routes/api/yf/chart.ts";
+import * as $api_yf_quote from "./routes/api/yf/quote.ts";
+import * as $api_yf_search from "./routes/api/yf/search.ts";
 import * as $assets from "./routes/assets.tsx";
+import * as $assets_stocks from "./routes/assets/stocks.tsx";
 import * as $dashboard_growth from "./routes/dashboard/growth.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_stats from "./routes/dashboard/stats.tsx";
@@ -34,6 +38,7 @@ import * as $AssetViewer from "./islands/AssetViewer.tsx";
 import * as $Chart from "./islands/Chart.tsx";
 import * as $GrowthTable from "./islands/GrowthTable.tsx";
 import * as $ItemsList from "./islands/ItemsList.tsx";
+import * as $StockChart from "./islands/StockChart.tsx";
 import * as $UsersTable from "./islands/UsersTable.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -55,7 +60,11 @@ const manifest = {
     "./routes/api/users/[login]/items.ts": $api_users_login_items,
     "./routes/api/users/index.ts": $api_users_index,
     "./routes/api/vote.ts": $api_vote,
+    "./routes/api/yf/chart.ts": $api_yf_chart,
+    "./routes/api/yf/quote.ts": $api_yf_quote,
+    "./routes/api/yf/search.ts": $api_yf_search,
     "./routes/assets.tsx": $assets,
+    "./routes/assets/stocks.tsx": $assets_stocks,
     "./routes/dashboard/growth.tsx": $dashboard_growth,
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/stats.tsx": $dashboard_stats,
@@ -73,6 +82,7 @@ const manifest = {
     "./islands/Chart.tsx": $Chart,
     "./islands/GrowthTable.tsx": $GrowthTable,
     "./islands/ItemsList.tsx": $ItemsList,
+    "./islands/StockChart.tsx": $StockChart,
     "./islands/UsersTable.tsx": $UsersTable,
   },
   baseUrl: import.meta.url,

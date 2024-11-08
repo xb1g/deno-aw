@@ -1,26 +1,23 @@
-// utils/data.ts
-// import yf from "yf";
-
-const ALPHA_VANTAGE_API_KEY = "2G4NBA0DKU2TSF6B";
+// import yahooFinance from "yahoo-finance2";
 
 export async function fetchStockPrices(
   tickers: string[],
 ): Promise<Map<string, number>> {
   const prices = new Map<string, number>();
+  const endpoint = `/api/yf/quote?tickers=${tickers.join(",")}`;
 
-  for (const ticker of tickers) {
-    const url =
-      `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=1min&apikey=${ALPHA_VANTAGE_API_KEY}`;
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`Request failed: GET ${url}`);
+  try {
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw new Error(`Request failed: GET ${endpoint}`);
+    }
 
-    const data = await resp.json();
-    const timeSeries = data["Time Series (1min)"];
-    if (!timeSeries) throw new Error(`Invalid response for ticker: ${ticker}`);
-
-    const latestTime = Object.keys(timeSeries)[0];
-    const latestPrice = parseFloat(timeSeries[latestTime]["1. open"]);
-    prices.set(ticker, latestPrice);
+    const data = await response.json();
+    data.forEach((quote: { ticker: string; price: number }) => {
+      prices.set(quote.ticker, quote.price);
+    });
+  } catch (error) {
+    console.error("Error fetching stock prices:", error);
   }
 
   console.log("Stock prices:", prices);
@@ -29,16 +26,25 @@ export async function fetchStockPrices(
 }
 
 export async function fetchGoldPrice(): Promise<number> {
+  const endpoint = `/api/yf/quote?tickers=GC=F`; // Gold futures symbol
+
   try {
     console.log("fetching gold price");
-    // const result = await yf.quote("GC=F"); // Gold futures symbol
-    const result = { regularMarketPrice: 1000 };
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw new Error(`Request failed: GET ${endpoint}`);
+    }
 
-    console.log(result, "ress");
-    if (!result || !result.regularMarketPrice) {
+    const data = await response.json();
+    const goldQuote = data.find((quote: { ticker: string; price: number }) =>
+      quote.ticker === "GC=F"
+    );
+
+    if (!goldQuote || !goldQuote.price) {
       throw new Error("Failed to fetch gold price");
     }
-    return result.regularMarketPrice;
+
+    return goldQuote.price;
   } catch (error) {
     console.error("Error fetching gold price:", error);
     throw error;

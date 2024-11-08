@@ -101,8 +101,8 @@ export default function AssetViewer(props: AssetViewerProps) {
 
         case "fund":
           totalValue = assetsByType.reduce((sum, asset) => {
-            const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
-            return sum + (asset.fundAmount || 0) * nav;
+            // const nav = priceDataSig.value.funds.get(asset.fundName!) || 0;
+            return sum + (asset.fundAmount || 0);
           }, 0);
           break;
       }

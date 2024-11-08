@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import type { User } from "@/utils/db.ts";
 import GitHubAvatarImg from "@/components/GitHubAvatarImg.tsx";
 import { fetchValues } from "@/utils/http.ts";
@@ -20,12 +20,13 @@ const AssetForm = () => {
     quantity: "",
     // Cash fields
     cashAmount: "",
-    currency: "",
+    currency: "THB", // Default to THB for cash
     // Fund fields
     fundName: "",
     fundAmount: "",
     fundType: "",
   });
+  const [fundOptions, setFundOptions] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +41,20 @@ const AssetForm = () => {
     // Handle form submission
     console.log("Form submitted:", { assetType, ...formData });
   };
+
+  useEffect(() => {
+    if (assetType === "fund") {
+      const fetchFunds = async (query) => {
+        const response = await fetch(`/api/yf/search?query=${query}`);
+        const data = await response.json();
+        const funds = data.quotes.filter((item) =>
+          item.quoteType === "MUTUALFUND" || item.quoteType === "ETF"
+        );
+        setFundOptions(funds);
+      };
+      fetchFunds(formData.fundName);
+    }
+  }, [assetType, formData.fundName]);
 
   const renderFirstPage = () => (
     <div className="space-y-4">
@@ -120,6 +135,18 @@ const AssetForm = () => {
                 required
               />
             </div>
+            <div>
+              <label htmlFor="currency" className={labelClass}>Currency</label>
+              <input
+                type="text"
+                id="currency"
+                name="currency"
+                value="USD"
+                readOnly
+                className={inputClass}
+                required
+              />
+            </div>
           </div>
         );
 
@@ -155,6 +182,18 @@ const AssetForm = () => {
                 required
               />
             </div>
+            <div>
+              <label htmlFor="currency" className={labelClass}>Currency</label>
+              <input
+                type="text"
+                id="currency"
+                name="currency"
+                value="USD"
+                readOnly
+                className={inputClass}
+                required
+              />
+            </div>
           </div>
         );
 
@@ -178,20 +217,15 @@ const AssetForm = () => {
             </div>
             <div>
               <label htmlFor="currency" className={labelClass}>Currency</label>
-              <select
+              <input
+                type="text"
                 id="currency"
                 name="currency"
                 value={formData.currency}
-                onChange={handleInputChange}
+                readOnly
                 className={inputClass}
                 required
-              >
-                <option value="">Select currency</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="THB">THB</option>
-                <option value="JPY">JPY</option>
-              </select>
+              />
             </div>
           </div>
         );
@@ -209,9 +243,28 @@ const AssetForm = () => {
                 value={formData.fundName}
                 onChange={handleInputChange}
                 className={inputClass}
-                placeholder="Vanguard S&P 500 ETF"
+                placeholder="Search for a fund"
                 required
               />
+              {fundOptions.length > 0 && (
+                <ul className="border rounded-lg mt-2 max-h-48 overflow-y-auto">
+                  {fundOptions.map((fund) => (
+                    <li
+                      key={fund.symbol}
+                      onClick={() => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          fundName: fund.symbol,
+                        }));
+                        setFundOptions([]);
+                      }}
+                      className="p-2 cursor-pointer hover:bg-gray-200"
+                    >
+                      {fund.shortname}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <div>
               <label htmlFor="fundAmount" className={labelClass}>
@@ -244,6 +297,18 @@ const AssetForm = () => {
                 <option value="Mutual Fund">Mutual Fund</option>
                 <option value="Index Fund">Index Fund</option>
               </select>
+            </div>
+            <div>
+              <label htmlFor="currency" className={labelClass}>Currency</label>
+              <input
+                type="text"
+                id="currency"
+                name="currency"
+                value="USD"
+                readOnly
+                className={inputClass}
+                required
+              />
             </div>
           </div>
         );

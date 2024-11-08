@@ -3,6 +3,14 @@ import type { State } from "@/plugins/session.ts";
 import Head from "@/components/Head.tsx";
 import ItemsList from "@/islands/ItemsList.tsx";
 import { defineRoute } from "$fresh/server.ts";
+import { Handlers } from "$fresh/src/server/types.ts";
+import { redirect } from "@/utils/http.ts";
+
+export const handler: Handlers = {
+  GET() {
+    return redirect("/dashboard/stats");
+  },
+};
 
 export default defineRoute<State>((_req, ctx) => {
   const isSignedIn = ctx.state.sessionUser !== undefined;
